@@ -226,13 +226,18 @@ export default function Home() {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <button
-                          className="font-semibold hover:text-amber-300"
-                          onClick={() => handleProfileFilter(post.author.username)}
+                        <a
+                          className="font-semibold hover:text-amber-300 cursor-pointer"
+                          href={`/users/${post.author.username}`}
                         >
                           {post.author.name}
-                        </button>
-                        <span className="text-slate-400">@{post.author.username}</span>
+                        </a>
+                        <a
+                          className="text-slate-400 hover:text-amber-300 cursor-pointer"
+                          href={`/users/${post.author.username}`}
+                        >
+                          @{post.author.username}
+                        </a>
                         <span className="text-sm text-slate-500">• {formatTime(post.createdAt)}</span>
                       </div>
                       <p className="mt-2 whitespace-pre-wrap text-slate-100">{post.content}</p>

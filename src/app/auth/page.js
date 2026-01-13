@@ -33,16 +33,19 @@ export default function AuthPage() {
     const cleanName = name.trim();
     const cleanPassword = password.trim();
 
-    if (!cleanName || !cleanUsername || !cleanPassword) {
-      setError("All fields are required.");
-      setLoading(false);
-      return;
-    }
 
-    if (cleanPassword.length < 6) {
-      setError("Password must be at least 6 characters.");
-      setLoading(false);
-      return;
+    if (tab === "register") {
+      if (!cleanName || !cleanUsername || !cleanPassword) {
+        setError("Name, username, and password are required.");
+        setLoading(false);
+        return;
+      }
+    } else {
+      if (!cleanUsername || !cleanPassword) {
+        setError("Username and password are required.");
+        setLoading(false);
+        return;
+      }
     }
 
     const res = await fetch("/api/auth/login", {

@@ -27,6 +27,7 @@ export async function POST(request) {
   }
 
   try {
+    console.log("Auth attempt:", { name, username, password: "***", isRegister });
     if (isRegister) {
       // Register: create new user with hashed password
       const existingUser = await prisma.user.findUnique({ where: { username } });
@@ -37,7 +38,9 @@ export async function POST(request) {
         );
       }
 
+      console.log("Hashing password...");
       const hashedPassword = await bcryptjs.hash(password, SALT_ROUNDS);
+      console.log("Password hashed, creating user...");
       const user = await prisma.user.create({
         data: { name, username, password: hashedPassword }
       });
@@ -66,7 +69,8 @@ export async function POST(request) {
       return NextResponse.json({ user: { id: user.id, name: user.name, username: user.username } });
     }
   } catch (error) {
-    console.error("Auth error:", error);
+    console.error("Auth error:", error.message || error);
+    console.error("Stack:", error.stack);
     return NextResponse.json(
       { error: "Authentication failed. Please try again." },
       { status: 500 }
